@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Process Files</title>
+    <style>
+        .data {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data th, .data td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        .data th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload and Process Files</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label for="files">Choose files to upload:</label>
+        <input type="file" id="files" name="files[]" multiple><br><br>
+        <button type="submit">Upload Files</button>
+    </form>
+    <form method="post">
+        <label for="high_water_level">Enter High Water Level:</label>
+        <input type="text" id="high_water_level" name="high_water_level" value="{{ high_water_level }}" required><br><br>
+        <input type="hidden" id="run_function" name="run_function" value="1">
+        <button type="submit">Run Function</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if tables %}
+        <h2>Output Data</h2>
+        <div>{{ tables|safe }}</div>
+        <br>
+        {% if download_link %}
+            <a href="{{ url_for('download_file') }}">Download Output</a>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
